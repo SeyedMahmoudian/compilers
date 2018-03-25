@@ -1,6 +1,6 @@
 /*  File name:Buffer.c
 *  Compiler: [MS Visual Studio 2013]
-*  Author: --,
+*  Author: SeyedAmin SeyedMahmoudian - 040813340
 *  Course: CST 8152 – Compilers,Lab Section:11
 *  Assignment:
 *  Date:
@@ -21,11 +21,11 @@ violet assignment rules */
 
 /*	Function Name:b_create
 *	Purpose: Create a Buffer at the begning of the program using calloc and check for options
-*	@param: short init_capacity, char inc_factor, char o_mod
-*	@version: 1.1.0
-*	@author: --
-*	@date:
-*	@return: Pointer to the Buffer
+*	param: short init_capacity, char inc_factor, char o_mod
+*	version: 1.1.0
+*	author: SeyedAmin SeyedMahmoudian - 040813340
+*	date:
+*	return: Pointer to the Buffer
 */
 Buffer *b_create(short init_capacity, char inc_factor, char o_mode) {
 
@@ -87,11 +87,11 @@ Buffer *b_create(short init_capacity, char inc_factor, char o_mode) {
 
 /*	Function Name:b_addc
 *	Purpose: Add all the character of the file into the character array
-*	@param: pBuffer const pBD, char symbol
-*	@version: 1.0.0
-*	@author: --
-*	@date: 29 September 2016
-*	@return: Pointer to the Buffer
+*	param: pBuffer const pBD, char symbol
+*	version: 1.0.0
+*	author: SeyedAmin SeyedMahmoudian - 040813340
+*	date: 29 September 2016
+*	return: Pointer to the Buffer
 */
 pBuffer b_addc(pBuffer const pBD, char symbol) {
 
@@ -155,11 +155,11 @@ pBuffer b_addc(pBuffer const pBD, char symbol) {
 
 /*	Function Name:b_reset
 *	Purpose: Reset all the variable to zero
-*	@param: Buffer *const pBD
-*	@version: 1.0.0
-*	@author: --
-*	@date: 29 September 2016
-*	@return: Integer
+*	param: Buffer *const pBD
+*	version: 1.0.0
+*	author: SeyedAmin SeyedMahmoudian - 040813340
+*	date: 29 September 2016
+*	return: Integer
 */
 
 int b_reset(Buffer *const pBD) {
@@ -178,11 +178,11 @@ int b_reset(Buffer *const pBD) {
 }
 /*	Function Name: b_free
 *	Purpose: Free pointer
-*	@param: Buffer *const pBD
-*	@version: 1.0.0
-*	@author: --
-*	@date: 29 September 2016
-*	@return: void
+*	param: Buffer *const pBD
+*	version: 1.0.0
+*	author: SeyedAmin SeyedMahmoudian - 040813340
+*	date: 29 September 2016
+*	return: void
 */
 void b_free(Buffer *const pBD) {
 
@@ -194,11 +194,11 @@ void b_free(Buffer *const pBD) {
 }
 /*	Function Name: b_isfull
 *	Purpose: check to see if the buffer is full or not
-*	@param: Buffer *const pBD
-*	@version: 1.0.0
-*	@author: --
-*	@date: 29 September 2016
-*	@return: Integer
+*	param: Buffer *const pBD
+*	version: 1.0.0
+*	author: SeyedAmin SeyedMahmoudian - 040813340
+*	date: 29 September 2016
+*	return: Integer
 */
 int b_isfull(Buffer *const pBD) {
 
@@ -216,11 +216,11 @@ int b_isfull(Buffer *const pBD) {
 
 /*	Function Name: b_size
 *	Purpose: give the size of the buffer
-*	@param: Buffer *const pBD
-*	@version: 1.0.0
-*	@author: --
-*	@date: 29 September 2016
-*	@return: Short
+*	param: Buffer *const pBD
+*	version: 1.0.0
+*	author: SeyedAmin SeyedMahmoudian - 040813340
+*	date: 29 September 2016
+*	return: Short
 */
 short b_size(Buffer *const pBD) {
 
@@ -235,11 +235,11 @@ short b_size(Buffer *const pBD) {
 }
 /*	Function Name:b_capacity
 *	Purpose: Return the current buffer capacity
-*	@param: Buffer *const pBD
-*	@version: 1.0.0
-*	@author: --
-*	@date: 29 September 2016
-*	@return: Short
+*	param: Buffer *const pBD
+*	version: 1.0.0
+*	author: SeyedAmin SeyedMahmoudian - 040813340
+*	date: 29 September 2016
+*	return: Short
 */
 short b_capacity(Buffer *const pBD) {
 
@@ -254,11 +254,11 @@ short b_capacity(Buffer *const pBD) {
 }
 /*	Function Name:b_setmark
 *	Purpose:
-*	@param: Buffer *const pBD , short mark
-*	@version: 1.0.0
-*	@author: --
-*	@date: 29 September 2016
-*	@return: Short
+*	param: Buffer *const pBD , short mark
+*	version: 1.0.0
+*	author: SeyedAmin SeyedMahmoudian - 040813340
+*	date: 29 September 2016
+*	return: Short
 */
 short b_setmark(Buffer *const pBD, short mark) {
 	if (pBD == NULL){
@@ -274,11 +274,11 @@ short b_setmark(Buffer *const pBD, short mark) {
 }
 /*	Function Name:b_mark
 *	Purpose:
-*	@param: Buffer *const pBD
-*	@version: 1.0.0
-*	@author: --
-*	@date: 29 September 2016
-*	@return: Short
+*	param: Buffer *const pBD
+*	version: 1.0.0
+*	author: SeyedAmin SeyedMahmoudian - 040813340
+*	date: 29 September 2016
+*	return: Short
 */
 short b_mark(Buffer*const pBD) {
 
@@ -291,11 +291,11 @@ short b_mark(Buffer*const pBD) {
 }
 /*	Function Name:b_mode
 *	Purpose:
-*	@param: Buffer *const pBD
-*	@version: 1.0.0
-*	@author: --
-*	@date: 29 September 2016
-*	@return: Integer
+*	param: Buffer *const pBD
+*	version: 1.0.0
+*	author: SeyedAmin SeyedMahmoudian - 040813340
+*	date: 29 September 2016
+*	return: Integer
 */
 int b_mode(Buffer*const pBD) {
 
@@ -310,11 +310,11 @@ int b_mode(Buffer*const pBD) {
 
 /*	Function Name:b_incfactor
 *	Purpose:
-*	@param: Buffer *const pBD
-*	@version: 1.0.0
-*	@author: --
-*	@date: 29 September 2016
-*	@return: size_t
+*	param: Buffer *const pBD
+*	version: 1.0.0
+*	author: SeyedAmin SeyedMahmoudian - 040813340
+*	date: 29 September 2016
+*	return: size_t
 */
 size_t b_incfactor(Buffer *const pBD) {
 
@@ -326,11 +326,11 @@ size_t b_incfactor(Buffer *const pBD) {
 }
 /*	Function Name:b_load
 *	Purpose:
-*	@param: FILE*const fi , Buffer *const pBD
-*	@version: 1.0.0
-*	@author: --
-*	@date: 29 September 2016
-*	@return: Integer
+*	param: FILE*const fi , Buffer *const pBD
+*	version: 1.0.0
+*	author: SeyedAmin SeyedMahmoudian - 040813340
+*	date: 29 September 2016
+*	return: Integer
 */
 int b_load(FILE*const fi, Buffer *const pBD) {
 	int counter = ZERO;/*counter for how many character have been added */
@@ -358,11 +358,11 @@ int b_load(FILE*const fi, Buffer *const pBD) {
 }
 /*	Function Name:b_isempty
 *	Purpose:
-*	@param: Buffer *const pBD
-*	@version: 1.0.0
-*	@author: --
-*	@date: 29 September 2016
-*	@return: Integer
+*	param: Buffer *const pBD
+*	version: 1.0.0
+*	author: SeyedAmin SeyedMahmoudian - 040813340
+*	date: 29 September 2016
+*	return: Integer
 */
 
 int b_isempty(Buffer * const pBD){
@@ -380,11 +380,11 @@ int b_isempty(Buffer * const pBD){
 }
 /*	Function Name:b_eob
 *	Purpose:
-*	@param: Buffer *const pBD
-*	@version: 1.0.0
-*	@author: --
-*	@date: 29 September 2016
-*	@return: Integer
+*	param: Buffer *const pBD
+*	version: 1.0.0
+*	author: SeyedAmin SeyedMahmoudian - 040813340
+*	date: 29 September 2016
+*	return: Integer
 */
 int b_eob(Buffer *const pBD) {
 	if (pBD == NULL)
@@ -396,11 +396,11 @@ int b_eob(Buffer *const pBD) {
 }
 /*	Function Name:b_getc
 *	Purpose:
-*	@param: Buffer *const pBD
-*	@version: 1.0.0
-*	@author: --
-*	@date: 29 September 2016
-*	@return: Character
+*	param: Buffer *const pBD
+*	version: 1.0.0
+*	author: SeyedAmin SeyedMahmoudian - 040813340
+*	date: 29 September 2016
+*	return: Character
 */
 char b_getc(Buffer *const pBD) {
 
@@ -420,11 +420,11 @@ char b_getc(Buffer *const pBD) {
 }
 /*	Function Name:b_print
 *	Purpose:
-*	@param: Buffer *const pBD
-*	@version: 1.0.0
-*	@author: --
-*	@date: 29 September 2016
-*	@return: Integer
+*	param: Buffer *const pBD
+*	version: 1.0.0
+*	author: SeyedAmin SeyedMahmoudian - 040813340
+*	date: 29 September 2016
+*	return: Integer
 */
 int b_print(Buffer *const pBD) {
 
@@ -459,11 +459,11 @@ int b_print(Buffer *const pBD) {
 }
 /*	Function Name:b_pack
 *	Purpose:
-*	@param: Buffer *const pBD
-*	@version: 1.0.0
-*	@author: --
-*	@date: 29 September 2016
-*	@return: Buffer
+*	param: Buffer *const pBD
+*	version: 1.0.0
+*	author: SeyedAmin SeyedMahmoudian - 040813340
+*	date: 29 September 2016
+*	return: Buffer
 */
 Buffer *b_pack(Buffer *const pBD) {
 
@@ -497,11 +497,11 @@ Buffer *b_pack(Buffer *const pBD) {
 }
 /*	Function Name:b_rflag
 *	Purpose:
-*	@param: Buffer *const pBD
-*	@version: 1.0.0
-*	@author: --
-*	@date: 29 September 2016
-*	@return: Character
+*	param: Buffer *const pBD
+*	version: 1.0.0
+*	author: SeyedAmin SeyedMahmoudian - 040813340
+*	date: 29 September 2016
+*	return: Character
 */
 char b_rflag(Buffer * const pBD) {
 
@@ -515,11 +515,11 @@ char b_rflag(Buffer * const pBD) {
 }
 /*	Function Name:b_retract
 *	Purpose:
-*	@param:Buffer *const pBD
-*	@version: 1.0.0
-*	@author: --
-*	@date: 29 September 2016
-*	@return: Short
+*	param:Buffer *const pBD
+*	version: 1.0.0
+*	author: SeyedAmin SeyedMahmoudian - 040813340
+*	date: 29 September 2016
+*	return: Short
 */
 short b_retract(Buffer *const pBD) {
 
@@ -537,11 +537,11 @@ short b_retract(Buffer *const pBD) {
 }
 /*	Function Name: b_retract_to_mark
 *	Purpose:
-*	@param:Buffer *const pBD
-*	@version: 1.0.0
-*	@author: --
-*	@date: 29 September 2016
-*	@return: Short
+*	param:Buffer *const pBD
+*	version: 1.0.0
+*	author: SeyedAmin SeyedMahmoudian - 040813340
+*	date: 29 September 2016
+*	return: Short
 */
 short b_retract_to_mark(Buffer *const pBD) {
 	short temp;
@@ -557,11 +557,11 @@ short b_retract_to_mark(Buffer *const pBD) {
 }
 /*	Function Name: b_getoffset
 *	Purpose:
-*	@param:Buffer *const pBD
-*	@version: 1.0.0
-*	@author: --
-*	@date: 29 September 2016
-*	@return: Short
+*	param:Buffer *const pBD
+*	version: 1.0.0
+*	author: SeyedAmin SeyedMahmoudian - 040813340
+*	date: 29 September 2016
+*	return: Short
 */
 short b_getoffset(Buffer *const pBD) {
 
@@ -575,11 +575,11 @@ short b_getoffset(Buffer *const pBD) {
 }
 /*	Function Name: b_cbhead
 *	Purpose:
-*	@param:Buffer *const pBD
-*	@version: 1.0.0
-*	@author: --
-*	@date: 29 September 2016
-*	@return: Character pointer
+*	param:Buffer *const pBD
+*	version: 1.0.0
+*	author: SeyedAmin SeyedMahmoudian - 040813340
+*	date: 29 September 2016
+*	return: Character pointer
 */
 char *b_cbhead(Buffer *const pBD) {
 	char *temp = NULL;
