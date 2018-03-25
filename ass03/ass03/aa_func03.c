@@ -1,9 +1,9 @@
 /*	Function Name:aa_func03
 *	Purpose: Accepting function for string variable (SVID)
-*	@param: char lexeme[]
-*	@version: 2..0
-*	@author: Seyedamin Seyedmahmoudian
-*	@return: Token
+*	param: char lexeme[]
+*	version: 2..0
+*	author: Seyedamin Seyedmahmoudian
+*	return: Token
 */
 Token aa_func03(char lexeme[]){
 	Token t; /* Token to be returned. */

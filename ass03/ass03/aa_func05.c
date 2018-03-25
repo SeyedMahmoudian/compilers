@@ -1,9 +1,9 @@
 /*	Function Name:aa_func05
 *	Purpose:  Accepting function for decimal constant (DIL)
-*	@param: char lexeme[]
-*	@version: 2.0.0
-*	@author: Seyedamin Seyedmahmoudian
-*	@return: Token
+*	param: char lexeme[]
+*	version: 2.0.0
+*	author: Seyedamin Seyedmahmoudian
+*	return: Token
 */
 Token aa_func05(char lexeme[]){
 	Token t;

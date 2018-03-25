@@ -1,9 +1,9 @@
 /*	Function Name:aa_func02
 *	Purpose: Accepting function for arithmetic variable (AVID) and keywords
-*	@param: char lexeme[]
-*	@version: 2.0
-*	@author: Seyedamin Seyedmahmoudian
-*	@return: Token
+*	param: char lexeme[]
+*	version: 2.0
+*	author: Seyedamin Seyedmahmoudian
+*	return: Token
 */
 Token aa_func02(char lexeme[]){
 	Token t; /* Token to be returned. */

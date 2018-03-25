@@ -1,6 +1,6 @@
 /*  File name:table.h
 *  Compiler: [MS Visual Studio 2013]
-*  Author: --,
+*  Author : SeyedAmin SeyedMahmoudian - 040813304,
 *  Course: CST 8152 – Compilers,
 *  Lab Section:11
 *  Assignment: The Scanner

@@ -1,6 +1,6 @@
 /*  File name:buffer.c
 *  Compiler: [MS Visual Studio 2013]
-*  Author: --,040813340
+*  Author: SeyedAmin SeyedMahmoudian,040813340
 *  Course: CST 8152 – Compilers,Lab Section:11
 *  Assignment:Buffer
 *  Date:
@@ -23,7 +23,7 @@ violet assignment rules */
 *	Purpose: Create a Buffer at the begning of the program using calloc and check for options
 *	param: short init_capacity, char inc_factor, char o_mod
 *	version: 1.1.0
-*	author: --
+*	author: SeyedAmin SeyedMahmoudian,040813340
 *	date:
 *	return: Pointer to the Buffer
 */
@@ -86,7 +86,7 @@ Buffer *b_create(short init_capacity, char inc_factor, char o_mode) {
 *	Purpose: Add all the character of the file into the character array
 *	param: pBuffer const pBD, char symbol
 *	version: 1.0.0
-*	author: --
+*	author: SeyedAmin SeyedMahmoudian,040813340
 *	date: 29 September 2016
 *	return: Pointer to the Buffer
 */
@@ -182,7 +182,7 @@ pBuffer b_addc(pBuffer const pBD, char symbol) {
 *	Purpose: Reset all the variable to zero
 *	param: Buffer *const pBD
 *	version: 1.0.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	date: 29 September 2016
 *	return: Integer
 */
@@ -208,7 +208,7 @@ int b_reset(Buffer *const pBD) {
 *	Purpose: Free pointer
 *	param: Buffer *const pBD
 *	version: 1.0.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	date: 29 September 2016
 *	return: void
 */
@@ -227,7 +227,7 @@ void b_free(Buffer *const pBD) {
 *	Purpose: check to see if the buffer is full or not
 *	param: Buffer *const pBD
 *	version: 1.0.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	date: 29 September 2016
 *	return: Integer
 */
@@ -249,7 +249,7 @@ int b_isfull(Buffer *const pBD) {
 *	Purpose: give the size of the buffer
 *	param: Buffer *const pBD
 *	version: 1.0.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	date: 29 September 2016
 *	return: Short
 */
@@ -269,7 +269,7 @@ short b_size(Buffer *const pBD) {
 *	Purpose: Return the current buffer capacity
 *	param: Buffer *const pBD
 *	version: 1.0.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	date: 29 September 2016
 *	return: Short
 */
@@ -289,7 +289,7 @@ short b_capacity(Buffer *const pBD) {
 *	Purpose:
 *	param: Buffer *const pBD , short mark
 *	version: 1.0.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	date: 29 September 2016
 *	return: Short
 */
@@ -308,7 +308,7 @@ short b_setmark(Buffer *const pBD, short mark) {
 *	Purpose:
 *	param: Buffer *const pBD
 *	version: 1.0.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	date: 29 September 2016
 *	return: Short
 */
@@ -326,7 +326,7 @@ short b_mark(Buffer*const pBD) {
 *	Purpose:
 *	param: Buffer *const pBD
 *	version: 1.0.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	date: 29 September 2016
 *	return: Integer
 */
@@ -347,7 +347,7 @@ int b_mode(Buffer*const pBD) {
 *	Purpose:
 *	param: Buffer *const pBD
 *	version: 1.0.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	date: 29 September 2016
 *	return: size_t
 */
@@ -365,7 +365,7 @@ size_t b_incfactor(Buffer *const pBD) {
 *	Purpose:
 *	param: FILE*const fi , Buffer *const pBD
 *	version: 1.0.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	date: 29 September 2016
 *	return: Integer
 */
@@ -398,7 +398,7 @@ int b_load(FILE*const fi, Buffer *const pBD) {
 *	Purpose:
 *	param: Buffer *const pBD
 *	version: 1.0.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	date: 29 September 2016
 *	return: Integer
 */
@@ -420,7 +420,7 @@ int b_isempty(Buffer * const pBD){
 *	Purpose:
 *	param: Buffer *const pBD
 *	version: 1.0.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	date: 29 September 2016
 *	return: Integer
 */
@@ -436,7 +436,7 @@ int b_eob(Buffer *const pBD) {
 *	Purpose:
 *	param: Buffer *const pBD
 *	version: 1.0.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	date: 29 September 2016
 *	return: Character
 */
@@ -463,7 +463,7 @@ char b_getc(Buffer *const pBD) {
 *	Purpose:
 *	param: Buffer *const pBD
 *	version: 1.0.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	date: 29 September 2016
 *	return: Integer
 */
@@ -506,7 +506,7 @@ int b_print(Buffer *const pBD) {
 *	Purpose:
 *	param: Buffer *const pBD
 *	version: 1.0.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	date: 29 September 2016
 *	return: Buffer
 */
@@ -544,7 +544,7 @@ Buffer *b_pack(Buffer *const pBD) {
 *	Purpose:
 *	param: Buffer *const pBD
 *	version: 1.0.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	date: 29 September 2016
 *	return: Character
 */
@@ -562,7 +562,7 @@ char b_rflag(Buffer * const pBD) {
 *	Purpose:
 *	param:Buffer *const pBD
 *	version: 1.0.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	date: 29 September 2016
 *	return: Short
 */
@@ -584,7 +584,7 @@ short b_retract(Buffer *const pBD) {
 *	Purpose:
 *	param:Buffer *const pBD
 *	version: 1.0.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	date: 29 September 2016
 *	return: Short
 */
@@ -604,7 +604,7 @@ short b_retract_to_mark(Buffer *const pBD) {
 *	Purpose:
 *	param:Buffer *const pBD
 *	version: 1.0.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	date: 29 September 2016
 *	return: Short
 */
@@ -622,7 +622,7 @@ short b_getoffset(Buffer *const pBD) {
 *	Purpose:
 *	param:Buffer *const pBD
 *	version: 1.0.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	date: 29 September 2016
 *	return: Character pointer
 */

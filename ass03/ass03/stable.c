@@ -1,6 +1,6 @@
 /*  File name:stable.c
 *  Compiler: [MS Visual Studio 2013]
-*  Author: --,040813340
+*  Author: SeyedAmin SeyedMahmoudian,040813340
 *  Course: CST 8152 – Compilers,Lab Section:11
 *  Assignment: Symbol Table Database
 *  Date:2016-11-24
@@ -41,7 +41,7 @@ static void st_incoffset(void);/*Increment st_offset by 1, used when function wa
 *	Purpose: This function creates a new (empty) symbol table
 *	param: int st_size
 *	version: 1.0.0
-*	author: --
+*	Author: SeyedAmin SeyedMahmoudian
 *	return: SymbolTableDescriptor
 */
 STD st_create(int st_size){
@@ -71,7 +71,7 @@ STD st_create(int st_size){
 *	Purpose: This function installs a new entry (VID record) in the symbol table
 *	param: STD sym_table, char* lexeme, char type, int line
 *	version: 1.0.0
-*	author: --
+*	Author: SeyedAmin SeyedMahmoudian
 *	return: offset integer
 */
 int st_install(STD sym_table, char* lexeme, char type, int line){
@@ -145,7 +145,7 @@ int st_install(STD sym_table, char* lexeme, char type, int line){
 *	Purpose: This function searches for a lexeme (variable name) in the symbol table
 *	param: STD sym_table, char* lexeme
 *	version: 1.0.0
-*	author: --
+*	Author: SeyedAmin SeyedMahmoudian
 *	return: integer offset
 */
 int st_lookup(STD sym_table, char*lexeme){
@@ -164,7 +164,7 @@ int st_lookup(STD sym_table, char*lexeme){
 *	Purpose: The function updates the data type indicator
 *	param: STD sym_table, int vid_offset, char v_type
 *	version: 1.0.0
-*	author: --
+*	Author: SeyedAmin SeyedMahmoudian
 *	return: integer vid_offset
 */
 int st_update_type(STD sym_table, int vid_offset, char v_type){
@@ -189,7 +189,7 @@ int st_update_type(STD sym_table, int vid_offset, char v_type){
 *	Purpose: The function updates the i_value
 *	param: STD sym_table, int vid_offset, InitialValue i_value
 *	version: 1.0.0
-*	author: --
+*	Author: SeyedAmin SeyedMahmoudian
 *	return: integer vid_offset
 */
 int st_update_value(STD sym_table, int vid_offset, InitialValue i_value){
@@ -204,7 +204,7 @@ int st_update_value(STD sym_table, int vid_offset, InitialValue i_value){
 *	Purpose: The function returns the type of the variable specified by vid_offset
 *	param: STD sym_table, int vid_offset
 *	version: 1.0.0
-*	author: --
+*	Author: SeyedAmin SeyedMahmoudian
 *	return: char base on the type of the variable
 */
 char st_get_type(STD sym_table, int vid_offset){
@@ -232,7 +232,7 @@ char st_get_type(STD sym_table, int vid_offset){
 *	Purpose: Free the dynamic memory occupied by the symbol table
 *	param: STD sym_table
 *	version: 1.0.0
-*	author: --
+*	Author: SeyedAmin SeyedMahmoudian
 *	return: void
 */
 void st_destroy(STD sym_table){
@@ -251,7 +251,7 @@ void st_destroy(STD sym_table){
 *	Purpose: This function prints the contents of the symbol table
 *	param: STD sym_table
 *	version: 1.0.0
-*	author: --
+*	Author: SeyedAmin SeyedMahmoudian
 *	return: number of line in int
 */
 int st_print(STD sym_table){
@@ -274,7 +274,7 @@ int st_print(STD sym_table){
 *	Purpose: Internal function that will set the size to 0 for functions withouth the access to the size of the buffer
 *	param: void
 *	version: 1.0.0
-*	author: --
+*	Author: SeyedAmin SeyedMahmoudian
 *	return: void
 */
 static void st_setsize(void){
@@ -284,7 +284,7 @@ static void st_setsize(void){
 *	Purpose: Internal function that will increment the st_offset for function that have no access to the variable
 *	param: void
 *	version: 1.0.0
-*	author: --
+*	Author: SeyedAmin SeyedMahmoudian
 *	return: void
 */
 static void st_incoffset(void){
@@ -295,7 +295,7 @@ static void st_incoffset(void){
 *	Purpose: This function stores the symbol table into a file named $stable.ste
 *	param: sym_table
 *	version: 1.0.0
-*	author: --
+*	Author: SeyedAmin SeyedMahmoudian
 *	return: int i , number of the record it has stored
 */
 int st_store(STD sym_table){
@@ -340,7 +340,7 @@ int st_store(STD sym_table){
 *			 A for ascending and D for descending
 *	param: STD sym_table, char s_order
 *	version: 1.0.0
-*	author: --
+*	Author: SeyedAmin SeyedMahmoudian
 *	return: The return in this function are to show  the success or failure of the sorting but
 *			 the actual return will be showing either on display or in file
 */
@@ -361,7 +361,7 @@ int st_sort(STD sym_table, char s_order){
 *	Purpose: Helper function to order the function in ascending order
 *	param: const void *ptr, const void *ptr2
 *	version: 1.0.0
-*	author: --
+*	Author: SeyedAmin SeyedMahmoudian
 *	return: return int
 */
 static int ascending(const void *ptr, const void *ptr2){
@@ -371,7 +371,7 @@ static int ascending(const void *ptr, const void *ptr2){
 *	Purpose: Helper function to order the function in descending order
 *	param: const void *ptr, const void *ptr2
 *	version: 1.0.0
-*	author: --
+*	Author: SeyedAmin SeyedMahmoudian
 *	return: return int
 */
 static int descending(const void *ptr, const void *ptr2){

@@ -1,6 +1,6 @@
 ﻿/*  File name:scanner.c
 *  Compiler: [MS Visual Studio 2013]
-*  Author: --
+*  Author : SeyedAmin SeyedMahmoudian - 040813304
 *  Course: CST 8152 – Compilers,Lab Section:11
 *  Assignment: The Scanner
 *  Date:2016-10-31
@@ -83,7 +83,7 @@ token structure which match the lexeme found in the stream of input symbol.if to
 found it will set the error token.
 *	param: Buffer * sc_buf
 *	version: 1.4.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	return: Token
 */
 Token mlwpar_next_token(Buffer * sc_buf)
@@ -371,7 +371,7 @@ int get_next_state(int state, char c, int *accept)
 *	Purpose: Get the column number in the transition table
 *	param: char c
 *	version: 1.1.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	return: int
 */
 int char_class(char c)
@@ -407,7 +407,7 @@ int char_class(char c)
 *	Purpose: Accepting function for arithmetic variable (AVID) and keywords
 *	param: char lexeme[]
 *	version: 1.1.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	return: Token
 */
 Token aa_func02(char lexeme[]){
@@ -444,7 +444,7 @@ Token aa_func02(char lexeme[]){
 *	Purpose: Accepting function for string variable (SVID)
 *	param: char lexeme[]
 *	version: 1.1.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	return: Token
 */
 Token aa_func03(char lexeme[]){
@@ -473,7 +473,7 @@ Token aa_func03(char lexeme[]){
 *	Purpose:  Accepting function for decimal constant (DIL)
 *	param: char lexeme[]
 *	version: 1.1.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	return: Token
 */
 Token aa_func05(char lexeme[]){
@@ -496,7 +496,7 @@ Token aa_func05(char lexeme[]){
 *	Purpose:  Accepting function for floating point literal (FPL)
 *	param: char lexeme[]
 *	version: 1.1.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	return: Token
 */
 Token aa_func08(char lexeme[]){
@@ -518,7 +518,7 @@ Token aa_func08(char lexeme[]){
 *	Purpose:  Accepting function for octal constant (OIL)
 *	param: char lexeme[]
 *	version: 1.1.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	return: Token
 */
 Token aa_func11(char lexeme[]){
@@ -541,7 +541,7 @@ Token aa_func11(char lexeme[]){
 *	Purpose:  Set the error token (ES)
 *	param: char lexeme[]
 *	version: 1.1.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	return: Token
 */
 Token aa_func12(char lexeme[]){
@@ -583,7 +583,7 @@ long atool(char * lexeme){
 *	Purpose: To check for key words
 *	param: char * lexeme
 *	version: 1.0.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	return: Token
 */
 int isKeyword(char * lexeme){
@@ -603,7 +603,7 @@ int isKeyword(char * lexeme){
 *	Purpose: Handle run time errors
 *	param: none
 *	version: 1.2.0
-*	author: --
+*	Author : SeyedAmin SeyedMahmoudian - 040813304
 *	return: Token
 */
 Token runTimeError(){
