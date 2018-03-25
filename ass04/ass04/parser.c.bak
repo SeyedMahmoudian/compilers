@@ -1,0 +1,894 @@
+/*  File name:parser.c
+*  Compiler: [MS Visual Studio 2013]
+*  Author: Seyedamin Seyedmahmoudian,040813340
+*  Course: CST 8152 – Compilers,Lab Section:11
+*  Assignment: The Parser
+*  Date:2016-12-08
+*  Professor:Sv.Ranve
+*  Purpose: Write predictive Parser for PLATYPUS
+*  Function list:
+*				-parser(Buffer*)
+*				-match(int,int)
+*				-syn_eh(int)
+*				-program(void)
+*				-gen_incode(char*)
+*				-opt_statements(void)
+*				-statements(void)
+*				-statements_p(void)
+*				-statement(void)
+*				-assignment_statement(void)
+*				-assignment_expression(void)
+*				-selection_statement(void)
+*				-iteration_statement(void)
+*				-input_statement(void)
+*				-variable_identifier(void)
+*				-variable_list(void)
+*				-variable_list_p(void)
+*				-output_statement(void)
+*				-output_list(void)
+*				-arithmetic_expression(void)
+*				-unary_arithmetic_expression(void)
+*				-additive_arithmetic_expression(void)
+*				-additive_arithmetic_expression_p(void)
+*				-multiplicative_arithmetic_expression(void)
+*				-multiplicative_arithmetic_expression_p(void)
+*				-primary_arithmetic_expression(void)
+*				-string_expression(void)
+*				-primary_string_expression(void)
+*				-conditional_expression(void)
+*				-logical_OR_expression(void)
+*				-logical_OR_expression_p(void)
+*				-logical_AND_expression(void)
+*				-logical_AND_expression_p(void)
+*				-relational_expression(void)
+*				-relational_operator(void)
+*				-primary_a_relational_expression(void)
+*				-primary_s_relational_expression(void)
+*				-primary_a_relational_expression_p(void)
+*				-primary_s_relational_expression_p(void)
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include"buffer.h"
+#include"token.h"
+#include"stable.h"
+#include "parser.h"
+/*	Function Name:parser
+*	Purpose: Handle run time errors
+*	param: none
+*	version: 1.2.0
+*	author: Seyedamin Seyedmahmoudian
+*	return: Token
+*/
+void parser(Buffer *in_buf){
+	sc_buf = in_buf;
+	lookahead = mlwpar_next_token(sc_buf);
+	program();
+	match(SEOF_T, NO_ATTR);
+	gen_incode("PLATY: Source file parsed");
+}
+
+void match(int pr_token_code, int pr_token_attribute){
+	/* If the required token code matches the current code, enter panic mode and return. */
+	if (pr_token_code != lookahead.code) {
+		syn_eh(pr_token_code);
+		return;
+	}
+
+	/* Verify the token code. */
+	switch (pr_token_code) {
+	case ART_OP_T: /* Arithmetic operator token */
+	case KW_T: /* Keyword token */
+	case LOG_OP_T: /* Logical operator token */
+	case REL_OP_T: /* Relational operator token */
+
+		/*
+		* If the required token attribute doesn't match the
+		* current attribute, enter panic more and return.
+		*/
+		if (pr_token_attribute != lookahead.attribute.get_int) {
+			syn_eh(pr_token_code);
+			return;
+		}
+
+	default:
+		/* If the current token code matches SEOF, return. */
+		if (lookahead.code == SEOF_T)
+			return;
+
+		/* Advance to the next token. */
+		lookahead = mlwpar_next_token(sc_buf);
+
+		/*
+		* If the current token code matches ERR_T, print an error, advance
+		* the token and increment the error counter.
+		*/
+		if (lookahead.code == ERR_T) {
+			syn_printe();
+			lookahead = mlwpar_next_token(sc_buf);
+			++synerrno;
+		}
+
+		return;
+	}
+}
+
+void syn_eh(int sync_token_code){
+	/* Print an error and increment the error counter. */
+	syn_printe();
+	++synerrno;
+
+	/*
+	* While the current token code is not equal to SEOF_T, advance
+	* the current token and validate it. Repeat until the current
+	* token code is equal to the required token code.
+	*/
+	while (lookahead.code != SEOF_T) {
+		lookahead = mlwpar_next_token(sc_buf);
+
+		if (lookahead.code == sync_token_code) {
+
+			/* If the current token code is not SEOF_T, advance it to the next token. */
+			if (lookahead.code != SEOF_T)
+				lookahead = mlwpar_next_token(sc_buf);
+
+			return;
+		}
+	}
+
+	/*
+	* If the loop exists without returning, check if the
+	* required token code is SEOF_T. If not, no match was
+	* found. Exit with the number of errors.
+	*/
+	if (sync_token_code != SEOF_T)
+		exit(synerrno);
+}
+
+/*provided by S.Ranev -- DO NOT TOUCH*/
+void syn_printe(){
+	Token t = lookahead;
+
+	printf("PLATY: Syntax error:  Line:%3d\n", line);
+	printf("*****  Token code:%3d Attribute: ", t.code);
+	switch (t.code){
+	case  ERR_T: /* ERR_T     0   Error token */
+		printf("%s\n", t.attribute.err_lex);
+		break;
+	case  SEOF_T: /*SEOF_T    1   Source end-of-file token */
+		printf("NA\n");
+		break;
+	case  AVID_T: /* AVID_T    2   Arithmetic Variable identifier token */
+	case  SVID_T:/* SVID_T    3  String Variable identifier token */
+		printf("%s\n", sym_table.pstvr[t.attribute.get_int].plex);
+		break;
+	case  FPL_T: /* FPL_T     4  Floating point literal token */
+		printf("%5.1f\n", t.attribute.flt_value);
+		break;
+	case INL_T: /* INL_T      5   Integer literal token */
+		printf("%d\n", t.attribute.get_int);
+		break;
+	case STR_T:/* STR_T     6   String literal token */
+		printf("%s\n", b_cbhead(str_LTBL) + t.attribute.str_offset);
+		break;
+
+	case SCC_OP_T: /* 7   String concatenation operator token */
+		printf("NA\n");
+		break;
+
+	case  ASS_OP_T:/* ASS_OP_T  8   Assignment operator token */
+		printf("NA\n");
+		break;
+	case  ART_OP_T:/* ART_OP_T  9   Arithmetic operator token */
+		printf("%d\n", t.attribute.get_int);
+		break;
+	case  REL_OP_T: /*REL_OP_T  10   Relational operator token */
+		printf("%d\n", t.attribute.get_int);
+		break;
+	case  LOG_OP_T:/*LOG_OP_T 11  Logical operator token */
+		printf("%d\n", t.attribute.get_int);
+		break;
+
+	case  LPR_T: /*LPR_T    12  Left parenthesis token */
+		printf("NA\n");
+		break;
+	case  RPR_T: /*RPR_T    13  Right parenthesis token */
+		printf("NA\n");
+		break;
+	case LBR_T: /*    14   Left brace token */
+		printf("NA\n");
+		break;
+	case RBR_T: /*    15  Right brace token */
+		printf("NA\n");
+		break;
+
+	case KW_T: /*     16   Keyword token */
+		printf("%s\n", kw_table[t.attribute.get_int]);
+		break;
+
+	case COM_T: /* 17   Comma token */
+		printf("NA\n");
+		break;
+	case EOS_T: /*    18  End of statement *(semi - colon) */
+		printf("NA\n");
+		break;
+	default:
+		printf("PLATY: Scanner error: invalid token code: %d\n", t.code);
+	}/*end switch*/
+}/* end syn_printe()*/
+
+void gen_incode(char* msg){
+	printf("%s\n", msg);
+}
+/*provided by S.Ranev -- DO NOT TOUCH*/
+void program(){
+	match(KW_T, PLATYPUS);
+	match(LBR_T, NO_ATTR);
+	opt_statements();
+	match(RBR_T, NO_ATTR);
+	gen_incode("PLATY: Program parsed");
+}
+
+/*FIRST set:{AVID_T,SVID_T,KW_T (no PLATYPUS,ELSE,THEN,REPEAT),AVID_T,SVID_T,and e
+<opt_statements>->statements()*/
+
+void opt_statements(void){
+	switch (lookahead.code){
+	case AVID_T:
+	case SVID_T: statement(); break;
+	case KW_T:
+		switch (lookahead.attribute.get_int) {
+		case IF:
+		case INPUT:
+		case OUTPUT:
+		case USING:
+			statements();
+			return;
+
+		default:
+			break;
+		}
+	default:/*empty*/
+
+		gen_incode("PLATY: Opt_statements parsed");
+	}
+}
+/*FIRST(statements)={AVID,SVID,IF,USING,INPUT,OUTPUT}
+<statements>->
+<statement><statements'>
+*/
+
+void statements(void){
+	statement();
+	statements_p();
+}
+/*FIRST(STATEMENTS')={AVID,SVID,IF,USING,INPUT,OUTPUT,e}
+<statements'>->
+<statement><statements'>|e
+*/
+void statements_p(void){
+	switch (lookahead.code) {
+	case KW_T:
+		switch (lookahead.attribute.kwt_idx) {
+		case ELSE:
+		case PLATYPUS:
+		case REPEAT:
+		case THEN:
+			return;
+		}
+
+	case AVID_T:
+	case SVID_T:
+		statement();
+		statements_p();
+		return;
+	}
+}
+
+/*FIRST(statemetnt)={AVID,SVID,IF,USING,INPUT,OUTPUT}
+
+<statements>->
+<assignment statement>
+|<selection statement>
+|<iteration statement>
+|<input statement>
+|<output statement>
+*/
+void statement(void){
+	switch (lookahead.code){
+	case AVID_T:
+	case SVID_T:
+		assignment_statement();
+	case KW_T:
+		switch (lookahead.attribute.get_int){
+		case IF:
+			selection_statement();
+			return;
+		case USING:
+			iteration_statement();
+			return;
+		case INPUT:
+			input_statement();
+			return;
+		case OUTPUT:
+			output_statement();
+			return;
+		default:
+			syn_printe();
+			return;
+		}
+	default:
+		syn_printe();
+		return;
+	}
+}
+
+/*
+FIRST(assignment statement)={AVID,SVID}
+<assignment statement>->
+<assignment expression>;
+*/
+
+void assignment_statement(void){
+	assignment_expression();
+	match(EOS_T, NO_ATTR);
+	gen_incode("PLATY: Assignment statement parsed");
+}
+
+/*FIRST(assignment expression)={AVID,SVID}
+<assignment expression>->
+AVID=<artimetic expression>
+|SVID=<string expression>
+*/
+void assignment_expression(void){
+	switch (lookahead.code){
+	case AVID_T:
+		match(AVID_T, NO_ATTR);
+		match(ASS_OP_T, NO_ATTR);
+		arithmetic_expression();
+		gen_incode("PLATY: Assignment expression (arithmetic) parsed");
+		break;
+	case SVID_T:
+		match(SVID_T, NO_ATTR);
+		match(ASS_OP_T, NO_ATTR);
+		string_expression();
+		gen_incode("PLATY: Assignment expression (string) parsed");
+		break;
+	default:
+		syn_printe();
+		break;
+	}
+}
+/*FIRST(assignment expression)={IF}
+<selection statement>->
+IF(<conditional expression>)THEN<opt_statements>
+ELSE{<opt_statements>};
+*/
+
+void selection_statement(void){
+	if (lookahead.attribute.get_int == IF){
+		match(KW_T, IF);
+		match(LPR_T, NO_ATTR);
+		conditional_expression();
+		match(RPR_T, NO_ATTR);
+		match(KW_T, THEN);
+		opt_statements();
+		match(KW_T, ELSE);
+		match(LBR_T, NO_ATTR);
+		opt_statements();
+		match(RBR_T, NO_ATTR);
+		match(EOS_T, NO_ATTR);
+		gen_incode("PLATY: IF statement parsed");
+	}
+}
+
+/*FIRST(iteration statement)={USING}
+<iteration statement>->
+USING(<assignment expression>,<conditional expression>,<assignment expression>)
+REPEAT{
+<opt_statement>
+};
+*/
+
+void iteration_statement(void){
+	if (lookahead.code == KW_T && lookahead.attribute.get_int == USING){
+		match(KW_T, USING);
+		match(LBR_T, NO_ATTR);
+		assignment_expression();
+		match(COM_T, NO_ATTR);
+		conditional_expression();
+		match(COM_T, NO_ATTR);
+		assignment_expression();
+		match(RPR_T, NO_ATTR);
+		match(KW_T, REPEAT);
+		match(LBR_T, NO_ATTR);
+		opt_statements();
+		match(RBR_T, NO_ATTR);
+		match(EOS_T, NO_ATTR);
+		gen_incode("PLATY: USING statement parsed");
+	}
+}
+
+/*FIRST(input statement)={INPUT}
+<input statement> ->
+INPUT(<variable list>);
+*/
+void input_statement(void){
+	match(KW_T, INPUT);
+	match(LPR_T, NO_ATTR);
+	variable_list();
+	match(RPR_T, NO_ATTR);
+	match(EOS_T, NO_ATTR);
+	gen_incode("PLATY: INPUT statement parsed");
+}
+/*FIRST(output statement)={OUTPUT}
+<output statement>->
+OUTPUT(<output list>);
+*/
+void output_statement(void){
+	if (lookahead.code == KW_T && lookahead.attribute.get_int == OUTPUT){
+		match(KW_T, OUTPUT);
+		match(LPR_T, NO_ATTR);
+		output_list();
+		match(RPR_T, NO_ATTR);
+		match(EOS_T, NO_ATTR);
+		gen_incode("PLATY: OUTPUT statement parsed");
+	}
+}
+
+/*FIRST(variable identifier)={AVID_T,SVID_T}
+<variable identifier> -> AVID_T|SVID_T
+*/
+void variable_identifier(void){
+	switch (lookahead.code){
+	case AVID_T:
+	case SVID_T:
+		match(lookahead.code, NO_ATTR);
+		return;
+	default:
+		syn_printe();
+		break;
+	}
+}
+/*FIRST(variable list)={variable identifier}
+<variable list>->
+<variable identifier><variable list'>
+*/
+void variable_list(void){
+	variable_identifier();
+	variable_list_p();
+	gen_incode("Variable list parsed");
+}
+
+/*FIRST(variable list')={,,e}
+<variable list'> ->
+,<variable identifier> <variable list'>|e
+*/
+void variable_list_p(void){
+	if (lookahead.code != COM_T)
+		return;
+
+	match(COM_T, NO_ATTR);
+	variable_identifier();
+	variable_list_p();
+}
+
+/*FIRST(output list)={variable identifier,STR_T,e}
+<output list> ->
+<variable list>|STR_T|e
+*/
+void output_list(void){
+	switch (lookahead.code){
+	case STR_T:
+		match(STR_T, NO_ATTR);
+		gen_incode("PLATY: Output list (string literal) parsed");
+		break;
+	case AVID_T:
+	case SVID_T:
+		variable_list();
+		break;
+	default:
+		gen_incode("PLATY: Output list (empty) parsed");
+		break;
+	}
+}
+
+/*FIRST(arithmetic expression)={-,+,AVID_T,FPL_T,INL_T,(}
+<arithemetic expression> ->
+<unary arithemetic expression>
+|<additive arithemetic expression>
+*/
+void arithmetic_expression(void){
+	switch (lookahead.code) {
+	case ART_OP_T:
+		/* The attribute must be MINUS or PLUS. */
+		switch (lookahead.attribute.arr_op) {
+		case MINUS:
+		case PLUS:
+			unary_arithmetic_expression();
+			break;
+
+		default:
+			syn_printe();
+			return;
+		}
+		break;
+
+	case AVID_T:
+	case FPL_T:
+	case INL_T:
+	case LPR_T:
+		additive_arithmetic_expression();
+		break;
+
+		/* If nothing matches, print an error. */
+	default:
+		syn_printe();
+		return;
+	}
+
+	gen_incode("PLATY: Arithmetic expression parsed");
+}
+
+/*FIRST(unary arithemetic expression)={-,+}
+<unary arothemetic expression>->
+- <primary arithemetic expression>
+| + <primary arithemetic expression>
+*/
+void unary_arithmetic_expression(void){
+	switch (lookahead.code) {
+	case ART_OP_T:
+		switch (lookahead.attribute.arr_op){
+		case MINUS:
+		case PLUS:
+			match(ART_OP_T, lookahead.attribute.arr_op);
+			primary_arithmetic_expression();
+			return;
+		default:
+			syn_printe();
+			return;
+		}
+	default:
+		syn_printe();
+		return;
+	}
+}
+
+/*FIRST(additive arithemtic expression)={AVID_T,FPL_T,INL_T,(}
+<additive arithmetic expression>->
+<multiplicative arithmetic expression> <additive arithmetic expression'>
+*/
+void additive_arithmetic_expression(void){
+	multiplicative_arithmetic_expression();
+	additive_arithmetic_expression_p();
+}
+
+/*FIRST(additive arithmetic expression')={+,-,e}
+<additive arithmetic expression'>->
++ <multiplicative arithmetic expression> <additive arithmetic expression'>
+|- <multiplicative arithmetic expression> <additive arithmetic expression'>
+| e
+*/
+
+void additive_arithmetic_expression_p(void){
+	switch (lookahead.code) {
+	case ART_OP_T:
+		switch (lookahead.attribute.arr_op) {
+			/* The attribute must be MINUS or PLUS. */
+		case MINUS:
+		case PLUS:
+			match(ART_OP_T, lookahead.attribute.arr_op);
+			multiplicative_arithmetic_expression();
+			additive_arithmetic_expression_p();
+			gen_incode("PLATY: Additive arithmetic expression parsed");
+			return;
+
+		default:
+			return;
+		}
+		return;
+
+	default:
+		return;
+	}
+}
+
+/*FIRST(multiplicative arithmetic expression)={AVID_T,FPL_T,INL_T,(}
+<multiplicative arithmetic expression>->
+<primary arithmetic expression> <multuplicative arithmetic expression'>
+*/
+void multiplicative_arithmetic_expression(void){
+
+	primary_arithmetic_expression();
+	multiplicative_arithmetic_expression_p();
+
+}
+
+/*FIRST(multiplicative arithmetic expression')={*,/,e}
+<multiplicative arithmetic expression'> ->
+* <primary arithmetic expression> <multuplicative arithmetic expression'>
+| /<primary arithmetic expression> <multuplicative arithmetic expression'>
+| e
+*/
+void multiplicative_arithmetic_expression_p(void){
+	switch (lookahead.code) {
+	case ART_OP_T:
+		/* The token attribute mut be DIV or MULT. */
+		switch (lookahead.attribute.arr_op) {
+		case DIV:
+		case MULT:
+			match(ART_OP_T, lookahead.attribute.arr_op);
+			primary_arithmetic_expression();
+			multiplicative_arithmetic_expression_p();
+			gen_incode("PLATY: Multiplicative arithmetic expression parsed");
+			return;
+
+		default:
+			return;
+		}
+		return;
+
+	default:
+		return;
+	}
+}
+/*FIRST(primary arithmetic expression)={AVID_T,FPL_T,INL_T,(}
+<primary arithmetic expression> ->
+AVID_T
+| FPL_T
+| INL_T
+|(<arithmetic expression>)
+*/
+void primary_arithmetic_expression(void){
+	switch (lookahead.code) {
+	case AVID_T:
+	case FPL_T:
+	case INL_T:
+		match(lookahead.code, lookahead.attribute.rel_op);
+		break;
+
+	case LPR_T:
+		match(LPR_T, lookahead.attribute.arr_op);
+		arithmetic_expression();
+		match(RPR_T, NO_ATTR);
+		break;
+
+		/* If nothing matches, print an error. */
+	default:
+		syn_printe();
+		break;
+	}
+
+	gen_incode("PLATY: Primary arithmetic expression parsed");
+}
+
+/*FIRST (string expression)={SVID_T,STR_T}
+<string expression> ->
+<primary string expression> <string expression'>
+*/
+
+void string_expression(void){
+	primary_string_expression();
+	string_expression_p();
+	gen_incode("PLATY: String expression parsed");
+
+}
+/*FIRST(string expression')={#,e}
+<string expression'>->
+<primary string expression> <string expression'>|e
+*/
+void string_expression_p(void){
+	if (lookahead.code != SCC_OP_T)
+		return;
+
+	match(SCC_OP_T, NO_ATTR);
+	primary_string_expression();
+	string_expression_p();
+}
+/*FIRST(primary string expression={SVID_T,STR_T}
+<primary string expression> ->
+SVID_T|STR_T
+*/
+void primary_string_expression(void){
+	switch (lookahead.code) {
+	case STR_T:
+	case SVID_T:
+		match(lookahead.code, NO_ATTR);
+		break;
+
+		/* If the current token code is not STR_T or SVID_T, print an error. */
+	default:
+		syn_printe();
+		break;
+	}
+
+	gen_incode("PLATY: Primary string expression parsed");
+}
+/*FIRST(conditional expression)={AVID_T,FPL_T,INL_T,SVID_T,STR_T}
+<conditional expression> ->
+<logical OR expression>
+*/
+void conditional_expression(void){
+	logical_OR_expression();
+	gen_incode("PLATY: Conditional expression parsed");
+}
+/*FIRST(logical OR expression)={AVID_T,FPL_T,INL_T,SVID_T,STR_T}
+<logical OR expression>->
+<logical AND expression>
+|<logical OR expression>
+*/
+void logical_OR_expression(void){
+	logical_AND_expression();
+	logical_OR_expression_p();
+}
+/*FIRST(logical OR expression')={.OR.,e}
+<logical OR expression'> ->
+.OR. <logical AND expression> <logical OR expression>|e
+*/
+void logical_OR_expression_p(void){
+	switch (lookahead.code) {
+	case LOG_OP_T:
+		/* The token attribute must be OR. */
+		if (lookahead.attribute.log_op == OR) {
+			match(LOG_OP_T, OR);
+			logical_AND_expression();
+			logical_OR_expression_p();
+			gen_incode("PLATY: Logical OR expression parsed");
+			return;
+		}
+		return;
+
+	default:
+		return;
+	}
+}
+/*FIRST(logical AND expression)={AVID_T,FPL_T,INL_T,SVID_T,STR_T}
+<logical AND expression> ->
+<relational expression> <logical AND expression'>
+*/
+void logical_AND_expression(void){
+	relational_expression();
+	logical_AND_expression_p();
+}
+
+/*FIRST (logical AND expression')={.AND.,e}
+<logical AND expression'> ->
+.AND. <relational expression><logical AND expression'>|e
+*/
+void logical_AND_expression_p(void){
+	switch (lookahead.code) {
+	case LOG_OP_T:
+		/* The token attribute must be AND. */
+		if (lookahead.attribute.log_op == AND) {
+			match(LOG_OP_T, AND);
+			relational_expression();
+			logical_AND_expression_p();
+			gen_incode("PLATY: Logical AND expression parsed");
+			return;
+		}
+		return;
+
+	default:
+		return;
+	}
+}
+/*FIRST(relational expression)={AVID_T,FPL_T}
+<relational expression>->
+<primary a_relational expression> <operator> <primary a_relational expression>
+|<primary s_relational expression> <operator> <primary s_relational expression>
+*/
+void relational_expression(void){
+	switch (lookahead.code) {
+	case AVID_T:
+	case FPL_T:
+	case INL_T:
+		primary_a_relational_expression();
+		relational_expression_a_p();
+		break;
+
+	case STR_T:
+	case SVID_T:
+		primary_s_relational_expression();
+		relational_expression_s_p();
+		break;
+
+		/* If nothing matches, print an error. */
+	default:
+		syn_printe();
+		break;
+	}
+
+	gen_incode("PLATY: Relational expression parsed");
+}
+
+/*FIRST(operator)={==,<,>}
+<operator>-> ==|<|>
+*/
+void operator(void){
+	switch (lookahead.code){
+	case REL_OP_T:
+		switch (lookahead.attribute.rel_op){
+		case EQ:
+			match(REL_OP_T, EQ);
+			break;
+		case NE:
+			match(REL_OP_T, NE);
+			break;
+		case GT:
+			match(REL_OP_T, GT);
+			break;
+		case LT:
+			match(REL_OP_T, LT);
+			break;
+		default:
+			syn_printe();
+			break;
+		}
+	}
+}
+
+/*FIRST (primary a_relational expression)={AVID_T,FPL_T,INL_T}
+<primary a_relational expression>->
+AVID_T | FPL_T | INL_T
+*/
+void primary_a_relational_expression(void){
+	switch (lookahead.code) {
+	case AVID_T:
+	case FPL_T:
+	case INL_T:
+		match(lookahead.code, lookahead.attribute.rel_op);
+		break;
+
+		/* If the current token code is not AVID_T, FPL_T or INL_T, print an error. */
+	default:
+		syn_printe();
+		break;
+	}
+
+	gen_incode("PLATY: Primary a_relational expression parsed");
+}
+
+/*FIRST (primary s_relational expression)={SVID_T,STR_T}
+<primary s_relational expressino>->
+<primary string expression>
+*/
+void primary_s_relational_expression(void){
+	switch (lookahead.code) {
+	case STR_T:
+	case SVID_T:
+		primary_string_expression();
+		break;
+
+		/* If the current token code is not STR_T or SVID_T, print an error. */
+	default:
+		syn_printe();
+		break;
+	}
+
+	gen_incode("PLATY: Primary s_relational expression parsed");
+}
+/*
+* Production: Relational Expression - Arithmetic - (P)
+* FIRST set: { ==, <>, >, < }
+*/
+void relational_expression_a_p(void) {
+	/* If the current code is not REL_OP_T (relational operator), print an error and return. */
+	if (lookahead.code != REL_OP_T) {
+		syn_printe();
+		return;
+	}
+
+	match(lookahead.code, lookahead.attribute.arr_op);
+	primary_a_relational_expression();
+}
+void relational_expression_s_p(void) {
+	/* If the current code is not REL_OP_T (relational operator), print an error and return. */
+	if (lookahead.code != REL_OP_T) {
+		syn_printe();
+		return;
+	}
+
+	match(lookahead.code, lookahead.attribute.arr_op);
+	primary_s_relational_expression();
+}
