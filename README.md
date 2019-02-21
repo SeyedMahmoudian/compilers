@@ -1,2 +1,3 @@
 # compilers
-compiler code written in C
+
+Lelexical analysis of compiler written in C
