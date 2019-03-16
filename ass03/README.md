@@ -1,6 +1,6 @@
 # Symbol Table:
 
-This is cumbol table compontent of Platypus compiler. The symbol table component consists of two parts:
+This is a symbol table compontent of Platypus compiler. The symbol table component consists of two parts:
 1. Symbol Table Manager (STM)
 2. Symbol Table Database (STDB)
 
