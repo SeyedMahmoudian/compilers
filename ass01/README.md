@@ -10,3 +10,5 @@ The buffer implementation is base on two associated data structes:
 Both structure are created on demand at run time. 
 
 The Buffer Descriptor or Buffer Handle suggest the purpose of this buffer control data structure containts all the necessary information about the array of characters.
+
+[Direct link to Buffer.c](https://github.com/SeyedMahmoudian/compilers/blob/master/ass01/ass01/Buffer.c)
